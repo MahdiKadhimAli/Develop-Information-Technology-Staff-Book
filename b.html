@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشروعي</title>
+</head>
+
+<body>
+
+    <!-- زر التضمين وإرسال ردود الفعل -->
+    <button onclick="embedSiteAndSendFeedback()">تضمين الموقع وإرسال ردود الفعل</button>
+
+    <!-- تضمين الكود JavaScript -->
+    <script>
+        function embedSiteAndSendFeedback() {
+            const apiKey = '9e5386cb-7fd8-bffb-0cbc-d6097579e22c';
+            const apiUrl = 'https://canny.io/api/v1/boards/list \
+    -d apiKey=9e5386cb-7fd8-bffb-0cbc-d6097579e22c'; // استبدل بعنوان URL الفعلي لل API
+
+            // إعداد الطلب والطريقة لا تتغير
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            // إجراء الطلب
+            fetch(apiUrl, requestOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    // هنا يمكنك إضافة الشيفرة التي تحدث عند استلام البيانات بنجاح
+                    alert('تم تضمين الموقع وإرسال ردود الفعل بنجاح!');
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    // هنا يمكنك إضافة الشيفرة التي تحدث عند حدوث خطأ أثناء الطلب
+                    alert('حدثت مشكلة أثناء تضمين الموقع وإرسال ردود الفعل.');
+                });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to Database</title>
+    <!-- Include SweetAlert2 library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+
+<body>
+
+    <h2>Add to Database</h2>
+
+    <button onclick="showConfirmation()">Add Data</button>
+
+    <script>
+        function showConfirmation() {
+            Swal.fire({
+                title: "Add to Database",
+                html:
+                    '<label for="swal-searchName">Search Name:</label>' +
+                    '<input type="text" id="swal-searchName" class="swal2-input">' +
+                    '<label for="swal-searchLink">Search Link:</label>' +
+                    '<input type="text" id="swal-searchLink" class="swal2-input">',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const name = document.getElementById('swal-searchName').value;
+                    const link = document.getElementById('swal-searchLink').value;
+
+                    // Send data to server for saving to database
+                    fetch('save_to_database.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name: name, link: link })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Show success message
+                            Swal.fire("Saved!", "Name: " + name + "\nLink: " + link + "\nData saved to database.", "success");
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            // Show error message
+                            Swal.fire("Error", "An error occurred while saving data to database.", "error");
+                        });
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
